@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level Editor - 2D Platformer</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/panels.css">
+    <link rel="stylesheet" href="css/modal.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Panel s nástroji -->
+        <div class="tools-panel">
+            <h2>Level Editor</h2>
+            
+            <div class="tool-section">
+                <h3>Nástroje</h3>
+                <button class="tool-button active" data-tool="1">Pevný blok (1)</button>
+                <button class="tool-button" data-tool="0">Vymazat (0)</button>
+                <button class="tool-button" data-tool="2">Mince (2)</button>
+                <button class="tool-button" data-tool="3">Nepřítel (3)</button>
+                <button class="tool-button" data-tool="6">Start hráče (6)</button>
+                <button class="tool-button" data-tool="5">Exit dveře (5)</button>
+                <button class="tool-button" data-tool="4">Pohyblivá platforma (4)</button>
+            </div>
+
+            <div class="tool-section">
+                <h3>Velikost gridu</h3>
+                <div class="grid-controls">
+                    <input type="number" id="gridWidth" value="20" min="10" max="50">
+                    <span>×</span>
+                    <input type="number" id="gridHeight" value="8" min="8" max="30">
+                    <button id="resizeGridBtn">Změnit</button>
+                </div>
+            </div>
+
+            <div class="tool-section">
+                <h3>Akce</h3>
+                <button class="tool-button" id="clearLevelBtn">Vyčistit level</button>
+                <button class="tool-button" id="fillFloorBtn">Vyplnit podlahu</button>
+                <button class="tool-button" id="createBordersBtn">Vytvořit okraje</button>
+            </div>
+
+            <div class="preview-toggle">
+                <input type="checkbox" id="showPlatformMovement" checked>
+                <label for="showPlatformMovement">Zobrazit pohyb platforem</label>
+            </div>
+
+            <div class="legend">
+                <h3>Legenda:</h3>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #8B4513;"></div>
+                    <span>Pevný blok</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #87CEEB;"></div>
+                    <span>Prázdno</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FFD700;"></div>
+                    <span>Mince</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FF0000;"></div>
+                    <span>Nepřítel</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #00FF00;"></div>
+                    <span>Start hráče</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #FF00FF;"></div>
+                    <span>Exit dveře</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #00CED1;"></div>
+                    <span>Pohyblivá platforma</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Oblast editoru -->
+        <div class="editor-area">
+            <div class="editor-header">
+                <label>Název levelu:</label>
+                <input type="text" id="levelName" placeholder="Název levelu" value="Nový level">
+                <button id="importLevelBtn">Import levelu</button>
+                <button id="exportLevelBtn">Export levelu</button>
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="levelCanvas"></canvas>
+            </div>
+
+            <div class="info-panel">
+                <span class="info-text" id="mousePos">Pozice: -</span>
+                <span class="info-text" id="gridInfo">Grid: 20×8</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modální okna -->
+    <div id="importModal" class="modal">
+        <div class="modal-content">
+            <h2>Import levelu</h2>
+            <p>Vložte JavaScript kód levelu:</p>
+            <textarea id="importCode" placeholder="// Level 1 - Tutorial level
+export const level1 = {
+    name: 'Začátek cesty',
+    ...
+}"></textarea>
+            <div class="modal-buttons">
+                <button class="btn-secondary modal-close" data-modal="importModal">Zrušit</button>
+                <button class="btn-primary" id="processImportBtn">Importovat</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <h2>Export levelu</h2>
+            <p>Zkopírujte tento kód do vašeho souboru s levely:</p>
+            <textarea id="exportCode" readonly></textarea>
+            <div class="modal-buttons">
+                <button class="btn-primary" id="copyToClipboardBtn">Zkopírovat</button>
+                <button class="btn-secondary modal-close" data-modal="exportModal">Zavřít</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript soubory -->
+    <script src="js/config.js"></script>
+    <script src="js/grid.js"></script>
+    <script src="js/platform.js"></script>
+    <script src="js/drawing.js"></script>
+    <script src="js/tools.js"></script>
+    <script src="js/import-export.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
