@@ -1,4 +1,8 @@
 // Správa nástrojů a kreslení
+// Tento modul zpracovává vstupy uživatele – výběr nástroje, kreslení do gridu,
+// akční tlačítka a změnu velikosti. Do getMousePos byla přidána podpora
+// viewportu, aby kliknutí správně mapovala na globální souřadnice mřížky.
+
 const Tools = {
     currentTool: Config.BLOCK_TYPES.SOLID,
     isDrawing: false,
@@ -24,7 +28,6 @@ const Tools = {
     // Nastavení událostí canvasu
     setupCanvasEvents() {
         const canvas = document.getElementById('levelCanvas');
-
         canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
         canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
         canvas.addEventListener('mouseup', () => this.stopDrawing());
@@ -50,8 +53,11 @@ const Tools = {
     // Pohyb myši
     handleMouseMove(e) {
         const pos = this.getMousePos(e);
-        document.getElementById('mousePos').textContent = `Pozice: [${pos.x}, ${pos.y}]`;
-
+        // Zobrazení pozice v UI
+        const mousePosLabel = document.getElementById('mousePos');
+        if (mousePosLabel) {
+            mousePosLabel.textContent = `Pozice: [${pos.x}, ${pos.y}]`;
+        }
         if (this.isDrawing) {
             this.setCell(pos.x, pos.y);
         }
@@ -63,13 +69,17 @@ const Tools = {
     },
 
     // Získání pozice myši
+    // Vrací globální souřadnice v gridu (s přičteným offsetem viewportu)
     getMousePos(e) {
         const canvas = document.getElementById('levelCanvas');
         const rect = canvas.getBoundingClientRect();
-        return {
-            x: Math.floor((e.clientX - rect.left) / Config.CELL_SIZE),
-            y: Math.floor((e.clientY - rect.top) / Config.CELL_SIZE)
-        };
+        // Počet buněk od levého horního rohu canvasu
+        const col = Math.floor((e.clientX - rect.left) / Config.CELL_SIZE);
+        const row = Math.floor((e.clientY - rect.top) / Config.CELL_SIZE);
+        // Přičteme offset, aby získaná pozice odpovídala globálním souřadnicím
+        const x = col + Drawing.offsetX;
+        const y = row + Drawing.offsetY;
+        return { x, y };
     },
 
     // Nastavení buňky
@@ -100,11 +110,15 @@ const Tools = {
     resizeGrid() {
         const newWidth = parseInt(document.getElementById('gridWidth').value);
         const newHeight = parseInt(document.getElementById('gridHeight').value);
-
         if (Grid.resize(newWidth, newHeight)) {
+            // Resetovat offset, pokud je mimo rozsah nového gridu
+            Drawing.offsetX = 0;
+            Drawing.offsetY = 0;
             Drawing.resizeCanvas();
             Drawing.draw();
-            UI.updateGridInfo();
+            if (UI && UI.updateGridInfo) {
+                UI.updateGridInfo();
+            }
         } else {
             alert('Neplatné rozměry gridu!');
         }

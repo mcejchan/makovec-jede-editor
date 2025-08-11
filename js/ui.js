@@ -1,4 +1,6 @@
 // Správa UI
+// Tento modul obsluhuje modální okna, checkboxy a aktualizuje info o gridu.
+
 const UI = {
     // Inicializace
     init() {
@@ -16,7 +18,6 @@ const UI = {
                 this.closeModal(modalId);
             });
         });
-
         // Zavření při kliknutí mimo modal
         document.querySelectorAll('.modal').forEach(modal => {
             modal.addEventListener('click', (e) => {
@@ -29,23 +30,35 @@ const UI = {
 
     // Nastavení checkbox handlerů
     setupCheckboxHandlers() {
-        document.getElementById('showPlatformMovement').addEventListener('change', () => {
-            Drawing.draw();
-        });
+        const checkbox = document.getElementById('showPlatformMovement');
+        if (checkbox) {
+            checkbox.addEventListener('change', () => {
+                Drawing.draw();
+            });
+        }
     },
 
     // Zobrazení modalu
     showModal(modalId) {
-        document.getElementById(modalId).style.display = 'flex';
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'flex';
+        }
     },
 
     // Zavření modalu
     closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+        }
     },
 
     // Aktualizace informace o gridu
     updateGridInfo() {
-        document.getElementById('gridInfo').textContent = `Grid: ${Grid.width}×${Grid.height}`;
+        const infoLabel = document.getElementById('gridInfo');
+        if (infoLabel) {
+            infoLabel.textContent = `Grid: ${Grid.width}×${Grid.height}`;
+        }
     }
 };

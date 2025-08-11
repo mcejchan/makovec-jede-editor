@@ -1,14 +1,18 @@
 // Globální konfigurace
+// Zde definujeme výchozí a maximální velikosti mřížky, velikost buněk a další konstanty.
+// Do původního editoru byla přidána podpora pro větší levely a viewport,
+// proto jsou zde i konstanty určující velikost viditelné oblasti.
+
 const Config = {
     // Výchozí velikost gridu
     DEFAULT_GRID_WIDTH: 20,
     DEFAULT_GRID_HEIGHT: 8,
 
-    // Limity velikosti
+    // Limity velikosti – zvětšeno pro podporu rozsáhlejších levelů
     MIN_GRID_WIDTH: 10,
-    MAX_GRID_WIDTH: 50,
+    MAX_GRID_WIDTH: 100,
     MIN_GRID_HEIGHT: 8,
-    MAX_GRID_HEIGHT: 30,
+    MAX_GRID_HEIGHT: 50,
 
     // Velikost buňky v pixelech
     CELL_SIZE: 40,
@@ -19,6 +23,11 @@ const Config = {
 
     // Rozsah pohybu platforem
     PLATFORM_MOVE_RANGE: 3,
+
+    // Počet sloupců a řádků viditelných ve viewportu
+    // Tyto hodnoty určují šířku a výšku canvasu, bez ohledu na skutečnou velikost gridu.
+    VISIBLE_COLS: 20,
+    VISIBLE_ROWS: 8,
 
     // Typy bloků
     BLOCK_TYPES: {

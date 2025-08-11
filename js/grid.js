@@ -1,4 +1,7 @@
 // Správa gridu
+// Tento modul udržuje dvourozměrné pole buněk, velikost gridu a pozici hráče.
+// Větší levely jsou podporovány díky zvětšeným limitům v Config.
+
 const Grid = {
     // Vlastnosti gridu
     width: Config.DEFAULT_GRID_WIDTH,
@@ -22,9 +25,9 @@ const Grid = {
 
     // Změna velikosti gridu
     resize(newWidth, newHeight) {
-        if (newWidth >= Config.MIN_GRID_WIDTH && 
-            newWidth <= Config.MAX_GRID_WIDTH && 
-            newHeight >= Config.MIN_GRID_HEIGHT && 
+        if (newWidth >= Config.MIN_GRID_WIDTH &&
+            newWidth <= Config.MAX_GRID_WIDTH &&
+            newHeight >= Config.MIN_GRID_HEIGHT &&
             newHeight <= Config.MAX_GRID_HEIGHT) {
 
             this.width = newWidth;
@@ -112,7 +115,6 @@ const Grid = {
     // Export gridu (vytvoří kopii bez speciálních objektů)
     exportData() {
         const exportGrid = [];
-
         for (let y = 0; y < this.height; y++) {
             exportGrid[y] = [];
             for (let x = 0; x < this.width; x++) {
@@ -126,7 +128,6 @@ const Grid = {
                 }
             }
         }
-
         return exportGrid;
     }
 };
